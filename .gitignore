@@ -1,0 +1,28 @@
+# Local test artifacts and browser state
+output/
+.playwright-cli/
+node_modules/
+*.log
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Personal backups
+qingyu-*.json
+
+# Local working notes and historical handoffs
+HANDOFF.md
+docs/superpowers/
+README.zh-CN.md
+本轮验收结果.md
+功能清单.md
+验收记录.md
+优化决策.md
+
+# Operating system files
+.DS_Store
+Thumbs.db

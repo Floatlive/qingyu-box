@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#ffffff" />
+<title>晴雨匣</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2334b2d0%22%2F%3E%3Ccircle%20cx%3D%2244%22%20cy%3D%2222%22%20r%3D%227%22%20fill%3D%22%23ffe08a%22%2F%3E%3Cg%20fill%3D%22%23ffffff%22%3E%3Ccircle%20cx%3D%2224%22%20cy%3D%2237%22%20r%3D%229%22%2F%3E%3Ccircle%20cx%3D%2235%22%20cy%3D%2232%22%20r%3D%2211%22%2F%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2237%22%20r%3D%228%22%2F%3E%3Crect%20x%3D%2222%22%20y%3D%2237%22%20width%3D%2227%22%20height%3D%2210%22%20rx%3D%224%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" />
+<link rel="stylesheet" href="css/style.css?v=20261114-bright-3" />
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="name"><span id="brand-icon" aria-hidden="true"></span>晴雨匣</span>
+      <span class="sub">照顾心情 · 收藏生活</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+      <span class="date-line" id="top-date"></span>
+      <button class="icon-btn" id="data-btn" type="button"><span id="data-icon" aria-hidden="true"></span>数据</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" data-view="weather" id="view-weather"></section>
+    <section class="view" data-view="quest" id="view-quest"></section>
+    <section class="view" data-view="cooler" id="view-cooler"></section>
+    <section class="view" data-view="trivia" id="view-trivia"></section>
+    <section class="view" data-view="alarm" id="view-alarm"></section>
+  </main>
+</div>
+
+<nav id="tabbar" aria-label="生活工具">
+  <button class="tab" data-tab="weather" type="button"><span class="glyph" id="nav-glyph-weather"></span><span>天气</span></button>
+  <button class="tab" data-tab="quest" type="button"><span class="glyph" id="nav-glyph-quest"></span><span>冒险</span></button>
+  <button class="tab" data-tab="cooler" type="button"><span class="glyph" id="nav-glyph-cooler"></span><span>冷静</span></button>
+  <button class="tab" data-tab="trivia" type="button"><span class="glyph" id="nav-glyph-trivia"></span><span>冷知识</span></button>
+  <button class="tab" data-tab="alarm" type="button"><span class="glyph" id="nav-glyph-alarm"></span><span>入睡</span></button>
+</nav>
+
+<!-- 数据导入导出 -->
+<div class="modal-mask" id="data-modal">
+  <div class="modal">
+    <h3>数据 · 备份</h3>
+    <p class="small muted" style="margin-bottom:12px;">所有内容只存在这台设备的这个浏览器里，不上传、不联网同步。换一台设备、或换个浏览器打开，就是全新空白，互相看不到。导出的 JSON 含图片，可留底或换设备时手动导入；导入只会把备份合并进来，不会清空你现有的内容。</p>
+    <div class="row" style="margin-bottom:10px;">
+      <button class="btn primary" id="export-btn" type="button">导出 JSON</button>
+      <button class="btn" id="import-btn" type="button">导入 JSON</button>
+    </div>
+    <input type="file" id="import-file" accept="application/json,.json" style="display:none;" />
+    <button class="btn ghost block" id="modal-close" type="button">关闭</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+
+<!-- 脚本按依赖顺序加载：core → content → model → storage → state → render* → ai → runtime -->
+<script src="js/01-core.js"></script>
+<script src="js/02-content.js"></script>
+<script src="js/03-model.js"></script>
+<script src="js/04-storage.js"></script>
+<script src="js/05-state.js"></script>
+<script src="js/06-icons.js"></script>
+<script src="js/06-render-weather.js"></script>
+<script src="js/07-render-quest.js"></script>
+<script src="js/08-render-cooler.js"></script>
+<script src="js/09-render-trivia.js"></script>
+<script src="js/10-render-alarm.js"></script>
+<script src="js/11-ai.js"></script>
+<script src="js/12-runtime.js"></script>
+</body>
+</html>
