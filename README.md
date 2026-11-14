@@ -1,4 +1,4 @@
-# Qingyu Box
+# 晴雨匣 · Qingyu Box
 
 A lightweight, local-first companion for moods and everyday life.
 
