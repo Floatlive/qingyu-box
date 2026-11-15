@@ -1,5 +1,11 @@
 # 晴雨匣 · Qingyu Box
 
+**Version: v2.0.1 · November 15, 2026**
+
+This patch fixes duplicate IDs and duplicate mood dates when importing backups,
+rejects unsafe record IDs, and clarifies which data is sent to configured AI providers.
+Validation: 3 model regression tests and 62 browser checks passed.
+
 A lightweight, local-first companion for moods and everyday life.
 
 Mood journaling, small daily adventures, calmer communication, curiosity, and
