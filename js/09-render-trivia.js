@@ -50,7 +50,7 @@ function renderTrivia() {
           <input class="txt" value="${esc(ui.aiConfig.model)}" placeholder="gpt-4o-mini" oninput="ui.aiConfig.model=this.value"/>
         </div>
         <button class="btn block" onclick="saveAiSettings()">保存设置</button>
-        <p class="tiny muted" style="margin-top:8px;">密钥只存在这台设备的浏览器里，不会上传；调用会产生该服务商的费用，接口还需允许浏览器跨域。</p>
+        <p class="tiny muted" style="margin-top:8px;">设置保存在本机浏览器；调用 AI 时，密钥和相关内容会发送给你配置的服务商，可能产生费用。</p>
       </div>` : ""}
   </section>
 

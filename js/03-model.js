@@ -31,6 +31,9 @@ function emptyData() {
 function isHm(v) {
   return typeof v === "string" && /^\d{2}:\d{2}$/.test(v);
 }
+function isSafeId(v) {
+  return typeof v === "string" && /^[A-Za-z0-9_-]{1,128}$/.test(v);
+}
 function isWeather(v) {
   return WEATHERS.some((w) => w.id === v);
 }
@@ -43,44 +46,44 @@ function normalizeData(raw) {
   const moods = Array.isArray(o.moods)
     ? o.moods.filter((m) =>
         m && typeof m === "object" &&
-        typeof m.id === "string" && typeof m.date === "string" &&
+        isSafeId(m.id) && typeof m.date === "string" &&
         typeof m.text === "string" && isWeather(m.weather) && typeof m.comment === "string")
     : [];
 
   const customQuests = Array.isArray(o.customQuests)
     ? o.customQuests.filter((q) =>
         q && typeof q === "object" &&
-        typeof q.id === "string" && typeof q.text === "string" &&
+        isSafeId(q.id) && typeof q.text === "string" &&
         (q.difficulty === "easy" || q.difficulty === "mid" || q.difficulty === "hard"))
     : [];
 
   const questLogs = Array.isArray(o.questLogs)
     ? o.questLogs.filter((q) =>
         q && typeof q === "object" &&
-        typeof q.id === "string" && typeof q.text === "string" && typeof q.date === "string")
+        isSafeId(q.id) && typeof q.text === "string" && typeof q.date === "string")
     : [];
 
   const coolerLogs = Array.isArray(o.coolerLogs)
     ? o.coolerLogs
-        .filter((c) => c && typeof c === "object" && typeof c.rewritten === "string")
+        .filter((c) => c && typeof c === "object" && (c.id == null || isSafeId(c.id)) && typeof c.rewritten === "string")
         .slice(0, 30)
     : [];
 
   const trivia = Array.isArray(o.trivia)
     ? o.trivia.filter((t) =>
         t && typeof t === "object" &&
-        typeof t.id === "string" && typeof t.name === "string" && typeof t.fact === "string")
+        isSafeId(t.id) && typeof t.name === "string" && typeof t.fact === "string")
     : [];
 
   const customTrivia = Array.isArray(o.customTrivia)
     ? o.customTrivia.filter((t) =>
         t && typeof t === "object" &&
-        typeof t.id === "string" && typeof t.name === "string" && typeof t.fact === "string")
+        isSafeId(t.id) && typeof t.name === "string" && typeof t.fact === "string")
     : [];
 
   const bedTasks = Array.isArray(o.bedTasks)
     ? o.bedTasks
-        .filter((t) => t && typeof t === "object" && typeof t.id === "string" && typeof t.text === "string")
+        .filter((t) => t && typeof t === "object" && isSafeId(t.id) && typeof t.text === "string")
         .map((t) => ({
           id: t.id,
           text: t.text.slice(0, 80),
@@ -101,7 +104,7 @@ function normalizeData(raw) {
     reminders = alarmRaw.reminders
       .filter((r) =>
         r && typeof r === "object" &&
-        typeof r.id === "string" && isHm(r.time) && typeof r.label === "string")
+        isSafeId(r.id) && isHm(r.time) && typeof r.label === "string")
       .slice(0, 12)
       .map((r) => ({
         id: r.id,
@@ -140,13 +143,24 @@ function normalizeData(raw) {
 /* 合并导入：按 id / 日期去重，只追加，不覆盖、不清空当前数据 */
 function mergeById(cur, inc) {
   const seen = new Set(cur.map((x) => x.id));
-  return cur.concat(inc.filter((x) => x && x.id && !seen.has(x.id)));
+  const merged = cur.slice();
+  for (const item of inc) {
+    if (!item || !item.id || seen.has(item.id)) continue;
+    seen.add(item.id);
+    merged.push(item);
+  }
+  return merged;
 }
 function mergeData(current, incoming) {
   const cur = normalizeData(current);
   const inc = normalizeData(incoming);
   const moodDates = new Set(cur.moods.map((m) => m.date));
-  const moods = cur.moods.concat(inc.moods.filter((m) => !moodDates.has(m.date)));
+  const moods = cur.moods.slice();
+  for (const mood of inc.moods) {
+    if (moodDates.has(mood.date)) continue;
+    moodDates.add(mood.date);
+    moods.push(mood);
+  }
   return {
     version: 1,
     moods,

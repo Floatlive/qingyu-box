@@ -152,7 +152,7 @@ function renderWeather() {
           <input class="txt" value="${esc(ui.aiConfig.model)}" placeholder="gpt-4o-mini" oninput="ui.aiConfig.model=this.value"/>
         </div>
         <button class="btn block" onclick="saveWeatherAiSettings()">保存设置</button>
-        <p class="tiny muted" style="margin-top:8px;">这里和冷知识页共用同一份配置，密钥只存在本机浏览器。</p>
+        <p class="tiny muted" style="margin-top:8px;">设置保存在本机浏览器；调用 AI 时，密钥和相关内容会发送给你配置的服务商。</p>
       </div>` : ""}
   </section>`;
 
