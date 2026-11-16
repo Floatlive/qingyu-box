@@ -1,26 +1,32 @@
 # 晴雨匣 · Qingyu Box
 
-**Version: v2.0.1 · November 15, 2026**
+**Current application version: v2.0.1**
 
-This patch fixes duplicate IDs and duplicate mood dates when importing backups,
-rejects unsafe record IDs, and clarifies which data is sent to configured AI providers.
-Validation: 3 model regression tests and 62 browser checks passed.
+A lightweight web app for recording feelings, organizing everyday life, and
+winding down before bed. It runs in desktop and mobile browsers, with a bright
+interface in Simplified Chinese and local storage for personal records.
 
-A lightweight, local-first companion for moods and everyday life.
+## Current Features
 
-Mood journaling, small daily adventures, calmer communication, curiosity, and
-bedtime routines in a bright, interactive web interface.
-The application interface is currently in Simplified Chinese.
+This overview describes the implementation on the default branch.
 
-## Features
+| Page | Available features |
+| --- | --- |
+| Mood journal · 天气 | Write or update a daily entry; choose from six common mood tags or expand all 21; browse a calendar, recent entries, and weekly/monthly summaries. |
+| Daily adventures · 冒险 | Draw a daily activity, complete or skip it, restore it to pending, track completion history and streaks, and add custom tasks. |
+| Cool-down space · 冷静 | Rewrite heated messages using local rules, compare and copy the result, take a suggested timed pause, and review recent rewrites. |
+| Everyday discoveries · 冷知识 | Search or randomly explore trivia by category, create custom entries, attach photos, and save image-and-text favorites. |
+| Bedtime routines · 入睡 | Capture and complete bedtime tasks, save something to look forward to tomorrow, set sleep/wake times and weekday reminders, and follow a breathing exercise. |
 
-- **Mood journal:** short entries, 21 mood tags, a calendar, and weekly or monthly summaries.
-- **Daily adventures:** draw an activity, complete or skip it, and add your own ideas.
-- **Cool-down space:** rewrite heated messages with local rules and take a timed pause.
-- **Everyday discoveries:** explore trivia and save custom facts with optional photos.
-- **Bedtime routines:** capture tomorrow's tasks, save something to look forward to, and follow a breathing exercise.
-- **Reminders and backups:** weekday reminders and JSON export/import, including saved images.
-- **Optional AI:** mood classification and image recognition through a configurable OpenAI-compatible endpoint.
+- **Optional AI:** classify a written mood or identify a photo and generate trivia
+  through a user-configured OpenAI-compatible service. AI requires a network
+  connection and provider credentials; cool-down rewrites use local rules.
+- **Backups:** export and import JSON files with saved images. Import merges
+  records into existing data and keeps current reminder settings.
+- **Offline use:** core features work when opened directly from local files,
+  without an account, installation, build step, or external CDN.
+- **Responsive interface:** layouts support desktop and mobile browser widths.
+  This repository provides a web app, not a native mobile app.
 
 ## Getting Started
 
@@ -91,8 +97,15 @@ order. No framework or external runtime assets.
 
 ## Validation
 
-The latest local UI regression run passed 62 browser checks covering core
+The November 15, 2026 local UI regression run passed 62 browser checks covering core
 interactions, persistence, navigation, four viewport widths (320, 390, 768,
 and 1280 pixels), reduced-motion styling, and direct-file offline loading.
 This is not exhaustive coverage. Real AI services, physical mobile devices,
 and operating-system notification delivery were not verified in that run.
+
+Three model regression tests cover duplicate imported IDs, duplicate mood dates,
+and rejection of unsafe record IDs. Run them with Node.js:
+
+```sh
+node --test tests/model.test.cjs
+```
